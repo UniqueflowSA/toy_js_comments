@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" defer src="./app/script.js"></script>
     <title>Vite App</title>
   </head>
@@ -12,10 +13,11 @@
       <form action="" id="submit_comments_form">
         <input name="user_id" type="text" />
         <input name="password" autocomplete="new-password" type="password" />
-        <textarea name="content" cols="30" rows="10"></textarea>
-        <button name="submit_btn">submit</button>
+        <textarea name="content"></textarea>
+        <button name="submit_btn" id="submit_btn">submit</button>
       </form>
     </div>
+    <div id="comments_list"></div>
     <script type="module" src="/main.js"></script>
   </body>
 </html>

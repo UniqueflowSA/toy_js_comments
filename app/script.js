@@ -29,22 +29,27 @@ const onSubmitComments = (e) => {
     return;
   }
   isLoading(true);
+  const objComment = {
+    commentsId: commentsId,
+    userId: userId,
+    password: password,
+    content: content,
+    date: getTime,
+    reply: "",
+  };
 
   //구글시트 전송함수.
   axios
-    .get(
-      "https://script.google.com/macros/s/AKfycby1knPtkYOLbtFuEsRIKGmIGb6JzfT0dzjQqMOEELCF5YOlCf5UofJWrdIY2DjdpwdGiQ/exec",
+    .post(
+      "https://script.google.com/macros/s/AKfycbwrycsxPh3pRMnFBf_kZ62Kx_jBwMbZurkSsdpGkaBXS5TONVQDWBnUxDqm6JL4EtqA/exec",
+      objComment,
       {
-        params: {
-          commentsId: commentsId,
-          userId: userId,
-          password: password,
-          content: content,
-          date: getTime,
-          reply: "",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
         },
       }
     )
+
     .then((res) => {
       alert("입력 완료.");
       console.log(res);
@@ -58,18 +63,19 @@ const onSubmitComments = (e) => {
     });
 };
 
-axios
-  .get(
-    "https://script.google.com/macros/s/AKfycbwUCy5h-yh2Gs486ZpVq-EFP3RzyLNaT2JOhuZ77j5U/dev"
-  )
-  .then((response) => {
-    const spreadsheetData = response.data;
-    console.log(response);
-    // 여기에서 스프레드시트 데이터를 사용
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+//시트 데이터 가져오기
+function fetchComments() {
+  axios
+    .get(
+      "https://script.google.com/macros/s/AKfycbwrycsxPh3pRMnFBf_kZ62Kx_jBwMbZurkSsdpGkaBXS5TONVQDWBnUxDqm6JL4EtqA/exec"
+    )
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 
 //작성된 리스트 필요.(스프레드시트와 연결하는 방법)
 //리플 기능은 어떻게 하지
@@ -77,4 +83,5 @@ axios
 //기본적으로 어떻게 통신하는지 보자
 // 현재 페이지 기준으로 댓글 시트 생성
 
+window.onload = fetchComments;
 $commentForm.addEventListener("submit", onSubmitComments);
